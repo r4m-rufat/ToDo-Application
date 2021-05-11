@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:padding="10dp"
+        android:fontFamily="serif-monospace"
+        android:text="What is up, Rufat"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/etxtNotes"
+        android:textSize="14sp"
+        android:padding="5dp"
+        android:layout_margin="10dp"
+        android:hint="Enter your note"
+        android:background="@drawable/background_for_note_box"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_gravity="end"
+        android:layout_marginRight="10dp"
+        android:text="Add"
+        android:id="@+id/addButton"
+        android:textAllCaps="false"
+        android:backgroundTint="#187A8C"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:padding="10dp"
+            android:fontFamily="serif-monospace"
+            android:text="Today's list"/>
+
+        <ImageView
+            android:id="@+id/refreshButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_refresh"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"/>
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/todoRecyclerView"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>

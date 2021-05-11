@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:minHeight="50dp"
+    android:background="@drawable/background_for_recycler_view"
+    android:layout_margin="10dp"
+    android:padding="5dp"
+    android:layout_weight="1">
+
+    <TextView
+        android:id="@+id/txtNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_weight="0.8"
+        android:textColor="@color/black"
+        android:text="Today I must finish this application"
+        android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="end"
+            app:tint="#FF0000"
+            android:layout_centerVertical="true"
+            android:id="@+id/ic_delete"
+            android:layout_toLeftOf="@id/ic_edit"
+            android:src="@drawable/ic_delete"/>
+
+        <ImageView
+            android:id="@+id/ic_edit"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_edit"/>
+
+
+</RelativeLayout>
