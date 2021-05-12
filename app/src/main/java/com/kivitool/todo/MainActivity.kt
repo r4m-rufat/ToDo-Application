@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kivitool.todo.adapters.RecyclerViewAdapter
@@ -16,7 +17,6 @@ import com.kivitool.todo.database.TodoDatabase
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var items: List<ToDo>
     lateinit var recyclerView: RecyclerView
     lateinit var editText: EditText
     lateinit var button: Button
@@ -25,8 +25,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        items = ArrayList()
 
         editText = findViewById(R.id.etxtNotes)
         button = findViewById(R.id.addButton)
@@ -38,9 +36,10 @@ class MainActivity : AppCompatActivity() {
 
         val userDao = TodoDatabase.getToDoDatabase(this@MainActivity).getDao()
 
+        val notesDao = ToDo()
+
         button.setOnClickListener {
-            val notesDao = ToDo()
-            notesDao.note = editText.text.toString()
+            notesDao.note = editText.text.trim().toString()
             userDao?.inserNotes(notesDao)
             recyclerView.adapter = RecyclerViewAdapter(this@MainActivity, userDao?.getAllNoteInfo())
             editText.setText("")
@@ -55,6 +54,24 @@ class MainActivity : AppCompatActivity() {
             recyclerView.adapter = RecyclerViewAdapter(this@MainActivity, userDao?.getAllNoteInfo())
 
         }
+
+        var itemTouchCallBack = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position =  viewHolder.adapterPosition
+                userDao?.deleteNotes(userDao?.getAllNoteInfo()[position])
+                recyclerView.adapter = RecyclerViewAdapter(this@MainActivity, userDao?.getAllNoteInfo())
+
+            }
+
+        }
+
+        var itemTouchHelper = ItemTouchHelper(itemTouchCallBack)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
 
     }
 
