@@ -29,13 +29,14 @@ class RecyclerViewAdapter(private val context: Context, private val list: Mutabl
         holder.btnDelete.setOnClickListener {
             val userDao = TodoDatabase.getToDoDatabase(context).getDao()
             userDao?.deleteNotes(userDao.getAllNoteInfo()[position])
+            /** last 3 lines is for async delete**/
             list.clear()
             list.addAll(userDao!!.getAllNoteInfo())
             notifyDataSetChanged()
 
               // these lines for interface but it doesn't work asynclly
-//            listener.OnDeleteItemListener(list[position])
-//            notifyDataSetChanged()
+              //listener.OnDeleteItemListener(list[position])
+              //notifyDataSetChanged()
         }
 
         holder.btnEdit.setOnClickListener {
