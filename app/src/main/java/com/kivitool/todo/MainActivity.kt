@@ -15,12 +15,13 @@ import com.kivitool.todo.adapters.RecyclerViewAdapter
 import com.kivitool.todo.database.ToDo
 import com.kivitool.todo.database.TodoDatabase
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() /*, RecyclerViewAdapter.RowCallBackListener*/ {
 
     lateinit var recyclerView: RecyclerView
     lateinit var editText: EditText
     lateinit var button: Button
     lateinit var refresh: ImageView
+    lateinit var list: MutableList<ToDo>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,17 +36,19 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
 
         val userDao = TodoDatabase.getToDoDatabase(this@MainActivity).getDao()
+        list = userDao!!.getAllNoteInfo()
 
         val notesDao = ToDo()
 
         button.setOnClickListener {
             notesDao.note = editText.text.trim().toString()
             userDao?.inserNotes(notesDao)
-            recyclerView.adapter = RecyclerViewAdapter(this@MainActivity, userDao?.getAllNoteInfo())
+            list = userDao.getAllNoteInfo()
+            recyclerView.adapter = RecyclerViewAdapter(this@MainActivity, list)
             editText.setText("")
         }
 
-        var adapter = RecyclerViewAdapter(this@MainActivity, userDao?.getAllNoteInfo())
+        var adapter = RecyclerViewAdapter(this@MainActivity, list)
         adapter.notifyDataSetChanged()
         recyclerView.adapter = adapter
 
@@ -74,5 +77,11 @@ class MainActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
     }
+
+//    override fun OnDeleteItemListener(item: ToDo) {
+//        val userDao = TodoDatabase.getToDoDatabase(this).getDao()
+//        userDao!!.deleteNotes(item)
+//        list = userDao!!.getAllNoteInfo()
+//    }
 
 }

@@ -14,7 +14,7 @@ import com.kivitool.todo.R
 import com.kivitool.todo.database.ToDo
 import com.kivitool.todo.database.TodoDatabase
 
-class RecyclerViewAdapter(private val context: Context, private val list: List<ToDo>?): RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
+class RecyclerViewAdapter(private val context: Context, private val list: MutableList<ToDo>?, /*val listener: RowCallBackListener*/): RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewAdapter.ViewHolder {
@@ -29,7 +29,13 @@ class RecyclerViewAdapter(private val context: Context, private val list: List<T
         holder.btnDelete.setOnClickListener {
             val userDao = TodoDatabase.getToDoDatabase(context).getDao()
             userDao?.deleteNotes(userDao.getAllNoteInfo()[position])
-            Toast.makeText(context, "Successfully deleted. Please update page", Toast.LENGTH_SHORT).show()
+            list.clear()
+            list.addAll(userDao!!.getAllNoteInfo())
+            notifyDataSetChanged()
+
+              // these lines for interface but it doesn't work asynclly
+//            listener.OnDeleteItemListener(list[position])
+//            notifyDataSetChanged()
         }
 
         holder.btnEdit.setOnClickListener {
@@ -54,6 +60,8 @@ class RecyclerViewAdapter(private val context: Context, private val list: List<T
 
     }
 
-
+//    interface RowCallBackListener{
+//        fun OnDeleteItemListener(item: ToDo);
+//    }
 
 }

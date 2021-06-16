@@ -7,7 +7,7 @@ import androidx.room.Dao
 interface Dao {
 
     @Query("SELECT * FROM todo_database ORDER BY id ASC")
-    fun getAllNoteInfo(): List<ToDo>
+    fun getAllNoteInfo(): MutableList<ToDo>
 
     @Insert
     fun inserNotes(toDo: ToDo?)
